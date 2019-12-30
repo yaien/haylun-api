@@ -8,3 +8,5 @@ exports.connect = () => {
         useUnifiedTopology: true
     })
 }
+
+exports.disconnect = () => mongoose.disconnect()
