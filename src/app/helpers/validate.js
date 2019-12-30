@@ -9,10 +9,13 @@ const indicative = require("indicative")
 /**
  * @param options {Options}
  */
-module.exports = ({ schema, from = "body"}) => {
-    return (req, res, next) => {
+module.exports = ({ schema, from = "body" }) => {
+    return async (req, res, next) => {
         try {
-            let value = await indicative.validator.validateAll(req[from], schema)
+            let value = await indicative.validator.validateAll(
+                req[from],
+                schema
+            )
             req[from] = value
             next()
         } catch (errors) {

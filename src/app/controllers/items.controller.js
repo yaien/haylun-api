@@ -7,15 +7,22 @@ exports.create = async (req, res) => {
             existence: { $gte: req.body.quantity }
         }).orFail(Error("PRODUCT_NOT_AVAILABLE"))
 
-        req.guest.items.push({
+        if (req.guest.items.find(item => item.product.toHexString() === product.id)) {
+            throw Error("PRODUCT_ALREADY_ADDED")
+        }
+
+        const item = req.guest.items.create({
             product: product._id,
             quantity: req.body.quantity
         })
 
+        req.guest.items.push(item)
+
         await req.guest.save()
 
-        res.send(req.guest.cart)
+        res.send(item)
     } catch (err) {
+        console.log(err)
         res.status(400).send({ error: err.message })
     }
 }
@@ -24,7 +31,7 @@ exports.remove = async (req, res, next) => {
     try {
         req.item.remove()
         await req.guest.save()
-        res.send(req.guest.items)
+        res.send(req.item)
     } catch (err) {
         next(err)
     }

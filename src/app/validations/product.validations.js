@@ -3,10 +3,10 @@ const validate = require("../helpers/validate")
 exports.create = validate({
     schema: {
         name: "string|required",
-        price: "integer|min:10000|required",
+        price: "integer|above:10000|required",
         description: "string",
         image: "url",
-        existence: "integer|min:0|required"
+        existence: "integer|above:0|required"
     }
 })
 
