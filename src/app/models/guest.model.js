@@ -1,8 +1,13 @@
 const mongoose = require("mongoose")
 
 const ItemSchema = new mongoose.Schema({
-    product: { type: mongoose.Types.ObjectId, ref: "Product" },
-    quantity: Number
+    ref: { type: mongoose.Types.ObjectId, ref: "Product" },
+    name: String,
+    image: String,
+    slug: String,
+    price: Number,
+    quantity: Number,
+    __v: Number
 })
 
 const GuestSchema = new mongoose.Schema({

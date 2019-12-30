@@ -4,16 +4,22 @@ exports.create = async (req, res) => {
     try {
         const product = await Product.findOne({
             _id: req.body.product,
+            published: true,
             existence: { $gte: req.body.quantity }
         }).orFail(Error("PRODUCT_NOT_AVAILABLE"))
 
-        if (req.guest.items.find(item => item.product.toHexString() === product.id)) {
+        if (req.guest.items.find(item => item.ref.toHexString() === product.id)) {
             throw Error("PRODUCT_ALREADY_ADDED")
         }
 
         const item = req.guest.items.create({
-            product: product._id,
-            quantity: req.body.quantity
+            ref: product._id,
+            quantity: req.body.quantity,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            slug: product.slug,
+            __v: product.__v
         })
 
         req.guest.items.push(item)
