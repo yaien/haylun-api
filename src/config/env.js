@@ -1,4 +1,5 @@
 const dotenv = require("dotenv")
+const ms = require("ms")
 
 dotenv.config()
 
@@ -11,5 +12,8 @@ module.exports = {
     jwt: {
         secret: process.env.JWT_SECRET,
         duration: process.env.JWT_DURATION
+    },
+    client: {
+        id: process.env.CLIENT_ID
     }
 }
