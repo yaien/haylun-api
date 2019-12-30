@@ -19,6 +19,7 @@ exports.param = async (req, res, next, id) => {
     }
 }
 
-exports.show = (req, res) => {
-    res.send(req.guest)
+exports.show = async (req, res) => {
+    const guest = await req.guest.populate({ path: "items.*.product" })
+    res.send(guest)
 }

@@ -39,11 +39,13 @@ exports.show = (req, res) => {
 
 exports.update = async (req, res, next) => {
     try {
+        if (req.product.published) throw new Error("PRODUCT_IS_PUBLISHED")
         req.product.set(req.body)
+        req.product.increment()
         await req.product.save()
         res.send(req.product)
-    } catch (err) {
-        next(err)
+    } catch (error) {
+        res.status(400).send({ error: error.message })
     }
 }
 
