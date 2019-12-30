@@ -17,6 +17,11 @@ module.exports = () => {
     }
 
     app.use(bodyParser.json())
+    app.use(
+        bodyParser.urlencoded({
+            extended: true
+        })
+    )
 
     routes(app)
     return app

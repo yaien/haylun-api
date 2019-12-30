@@ -13,6 +13,16 @@ UserSchema.pre("save", async function() {
     }
 })
 
+UserSchema.method("checkPassword", function(password) {
+    return argon2.verify(this.password, password)
+})
+
+UserSchema.method("toJSON", function() {
+    const data = this.toObject()
+    delete data.password
+    return data
+})
+
 const UserModel = mongose.model("User", UserSchema)
 
 module.exports = UserModel
