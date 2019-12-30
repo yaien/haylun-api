@@ -16,6 +16,15 @@ exports.update = validate({
         price: "integer|min:10000",
         description: "string",
         image: "url",
-        existence: "integer|min:0"
+        existence: "integer|above:0"
+    }
+})
+
+exports.search = validate({
+    from: "query",
+    schema: {
+        search: "string",
+        offset: "integer|above:-1",
+        limit: "integer|above:0"
     }
 })

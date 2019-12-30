@@ -1,4 +1,5 @@
 const indicative = require("indicative")
+const lang = require("../../config/lang")
 
 /**
  * @typedef Options
@@ -12,10 +13,10 @@ const indicative = require("indicative")
 module.exports = ({ schema, from = "body" }) => {
     return async (req, res, next) => {
         try {
-            let value = await indicative.validator.validateAll(
-                req[from],
-                schema
-            )
+            let value = await indicative.validator.validateAll(req[from], schema, lang.validation, {
+                cacheKey: req.url,
+                removeAdditional: true
+            })
             req[from] = value
             next()
         } catch (errors) {
