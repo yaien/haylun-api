@@ -1,9 +1,13 @@
 const mongoose = require("mongoose")
-const CartSchema = require("./schemas/cart.schema")
+
+const ItemSchema = new mongoose.Schema({
+    product: { type: mongoose.Types.ObjectId, ref: "Product" },
+    quantity: Number
+})
 
 const GuestSchema = new mongoose.Schema({
     active: { type: Boolean, default: true },
-    cart: CartSchema
+    items: [ItemSchema]
 })
 
 const GuestModel = mongoose.model("Guest", GuestSchema)
