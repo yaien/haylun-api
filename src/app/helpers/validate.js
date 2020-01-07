@@ -1,5 +1,17 @@
 const indicative = require("indicative")
+const utils = require("indicative-utils")
 const lang = require("../../config/lang")
+
+indicative.validator.extend("phone", {
+    async: false,
+    compile: args => args,
+    validate: (data, field, args, config) => {
+        const value = utils.getValue(data, field)
+        if (utils.skippable(value, field, config)) return true
+        const regex = /^\+\d+(-\d+)? \d{10}/
+        return regex.test(value)
+    }
+})
 
 /**
  * @typedef Options

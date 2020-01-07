@@ -3,6 +3,7 @@ const items = require("../app/routes/items.routes")
 const products = require("../app/routes/product.routes")
 const token = require("../app/routes/token.routes")
 const user = require("../app/routes/user.routes")
+const invoices = require("../app/routes/invoice.routes")
 
 module.exports = app => {
     guests(app)
@@ -10,4 +11,5 @@ module.exports = app => {
     products(app)
     token(app)
     user(app)
+    invoices(app)
 }
