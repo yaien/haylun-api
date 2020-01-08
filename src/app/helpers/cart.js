@@ -15,7 +15,7 @@ class CartError extends Error {
 exports.create = async items => {
     const cart = { total: 0, items: [] }
     for (let item of items) {
-        let product = await Product.findOne({ _id: item.product, active: true }).orFail(
+        let product = await Product.findOne({ _id: item.product, published: true }).orFail(
             () => new CartError("PRODUCT_NOT_FOUND", { product: item.product })
         )
 
@@ -30,12 +30,12 @@ exports.create = async items => {
             ref: product._id,
             image: product.image,
             name: product.name,
-            quantity: product.quantity,
+            quantity: item.quantity,
             price: product.price
         })
     }
 
-    cart.total = cart.items.reduce(item => item.quantity * item.price)
+    cart.total = cart.items.reduce((sum, item) => sum + item.quantity * item.price, 0)
 
     return cart
 }
